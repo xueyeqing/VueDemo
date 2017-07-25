@@ -1,0 +1,86 @@
+@charset "UTF-8";
+/**
+ * 使用@mixin命令，定义一个代码块。
+ * 使用@include命令，调用这个mixin。
+ *
+ */
+.blue-btn {
+  background: #324157; }
+  .blue-btn:hover {
+    color: #324157; }
+    .blue-btn:hover:before, .blue-btn:hover:after {
+      background: #324157; }
+
+.light-blue-btn {
+  background: #3A71A8; }
+  .light-blue-btn:hover {
+    color: #3A71A8; }
+    .light-blue-btn:hover:before, .light-blue-btn:hover:after {
+      background: #3A71A8; }
+
+.red-btn {
+  background: #C03639; }
+  .red-btn:hover {
+    color: #C03639; }
+    .red-btn:hover:before, .red-btn:hover:after {
+      background: #C03639; }
+
+.pink-btn {
+  background: #E65D6E; }
+  .pink-btn:hover {
+    color: #E65D6E; }
+    .pink-btn:hover:before, .pink-btn:hover:after {
+      background: #E65D6E; }
+
+.green-btn {
+  background: #30B08F; }
+  .green-btn:hover {
+    color: #30B08F; }
+    .green-btn:hover:before, .green-btn:hover:after {
+      background: #30B08F; }
+
+.tiffany-btn {
+  background: #4AB7BD; }
+  .tiffany-btn:hover {
+    color: #4AB7BD; }
+    .tiffany-btn:hover:before, .tiffany-btn:hover:after {
+      background: #4AB7BD; }
+
+.yellow-btn {
+  background: #FEC171; }
+  .yellow-btn:hover {
+    color: #FEC171; }
+    .yellow-btn:hover:before, .yellow-btn:hover:after {
+      background: #FEC171; }
+
+.pan-btn {
+  font-size: 14px;
+  color: #fff;
+  border-radius: 8px;
+  padding: 14px 36px;
+  margin-right: 25px;
+  position: relative;
+  display: inline-block;
+  border: none;
+  outline: none;
+  transition: 600ms ease all; }
+  .pan-btn:hover {
+    background: #fff; }
+    .pan-btn:hover:before, .pan-btn:hover:after {
+      width: 100%;
+      transition: 600ms ease all; }
+  .pan-btn:before, .pan-btn:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 2px;
+    width: 0;
+    transition: 400ms ease all; }
+  .pan-btn::after {
+    right: inherit;
+    top: inherit;
+    left: 0;
+    bottom: 0; }
+
+/*# sourceMappingURL=btn.css.map */
