@@ -1,0 +1,49 @@
+// 变量
+@lightTextColor: rgb(70, 191, 24);
+@textColor: rgb(151, 151, 151);
+
+@test_width: 300px;
+
+.box {
+  width: @test_width;
+  height: @test_width;
+  background-color: yellow;
+
+  .border;
+}
+
+// 混合
+.border {
+  border: solid 5px pink;
+}
+
+// 混合－可带参数
+.border_02(@border_width) {
+  border: solid yellow @border_width;
+}
+
+.test_hunhe {
+  .border_02(30px);
+}
+
+// 混合－默认带值
+.border_03(@border_width:10px) {
+  border: solid green @border_width;
+}
+
+.test_hunhe_03 {
+  .border_03();
+}
+
+// 运算
+@test_01: 300px;
+
+.box_02 {
+  width: @test_01 + 20;
+}
+
+// & 代表它的上一层选择器
+// @arguments 代表所有的参数值
+// 避免编译 如： ~'calc(300px-30px)'
+
+

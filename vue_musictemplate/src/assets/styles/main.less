@@ -1,0 +1,51 @@
+@main_width: 200px;
+@main_height: 60px;
+@main_top: 60px;
+@main_bottom: 60px;
+@main_topbarcolor: #4fc08d;
+@main_bordercolor: #dcdcdc;
+@main_bgcolor: #fafafa;
+
+.container(@topbarcolor:#f1f1f1) {
+  position: absolute;
+  background-color: @topbarcolor;
+}
+
+.top-container {
+  left: 0px;
+  top: 0px;
+  height: @main_height;
+  width: 100%;
+
+  .container(@main_topbarcolor);
+}
+
+.main-container {
+  left: @main_width;
+  top: @main_top;
+  height: ~'calc(100% - 60px - 60px)';
+  width: ~'calc(100% - 200px)';
+  overflow: auto;
+
+  .container(@main_bgcolor);
+}
+
+.left-container {
+  left: 0px;
+  top: @main_top;
+  bottom: @main_bottom;
+  height: ~'calc(100% - 60px - 60px)';
+  width: @main_width;
+  border-right: solid 1px @main_bordercolor;
+
+  .container;
+}
+
+.bottom-container {
+  bottom: 0px;
+  height: @main_height;
+  width: 100%;
+  border-top: solid 1px @main_bordercolor;
+
+  .container;
+}
