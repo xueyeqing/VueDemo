@@ -5,5 +5,5 @@
 ### 2、vue_musictemplate 简单实例效果如下（技术栈：vue+webpack+vue_router+less）
   ![](https://github.com/xueyeqing/VueDemo/blob/master/vue_musictemplate/static/24.pic.jpg)
   
-### 3、用vue写管理后台，主要参考大神的开源项目，以此来练手
+### 3、vue-element 用vue写管理后台，主要参考大神的开源项目，以此来练手
  ![](https://github.com/xueyeqing/VueDemo/blob/master/vue-element/static/27.pic.jpg)  ![](https://github.com/xueyeqing/VueDemo/blob/master/vue-element/static/28.pic.jpg)
