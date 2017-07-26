@@ -7,3 +7,8 @@
   
 ### 3、vue-element 用vue写管理后台，主要参考大神的开源项目，以此来练手
  ![](https://github.com/xueyeqing/VueDemo/blob/master/vue-element/static/27.pic.jpg)  ![](https://github.com/xueyeqing/VueDemo/blob/master/vue-element/static/28.pic.jpg)
+ 
+### 4、douban_movie 高仿豆瓣电影
+
+### 5、vue_ele 高仿饿了么商品页面
+ ![](https://github.com/xueyeqing/VueDemo/blob/master/vue_elm/static/a.jpg)
