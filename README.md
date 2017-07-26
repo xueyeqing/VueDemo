@@ -11,4 +11,4 @@
 ### 4、douban_movie 高仿豆瓣电影
 
 ### 5、vue_ele 高仿饿了么商品页面
- ![](https://github.com/xueyeqing/VueDemo/blob/master/vue_elm/static/a.jpg)
+ ![](https://github.com/xueyeqing/VueDemo/blob/master/vue_elm/static/b.jpg)
