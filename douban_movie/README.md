@@ -59,6 +59,57 @@
           
        使用：<i class="icon-video-camera"></i>即可显示图标
   ```
+### CSS3 box-sizing属性
+  > content-box:默认，border和padding不计算入width之内。 
+  > padding-box:padding计算入width之内。 
+  > border-box:border和padding计算入width之内。 
+  
+### 组件之间数据传递
+  > 子组件方法传递到父组件
+  ```
+   子：switches.vue
+   <li class="switch-item" @click="switchItem(index)">
+   
+   methods: {
+     switchItem(index) {
+       this.$emit('switch', index);
+     }
+   }
+   
+   父：
+   <switches @switch="switchItem"></switches>
+   
+   methods: {
+     switchItem(index) {
+       this.currentIndex = index;
+     }
+   }
+  ```
+  > 父组件向内传递属性
+  ```
+   父：<switches :switches="switches" ></switches>
+   
+       switches: [{name: '正在热映'},{name: '即将上映'}]}
+   子：
+      props: {
+        switches: {
+          type: Array,
+          default: []
+        }
+      }
+  ```
+  
+###  axios来完成ajax请求
+  > 安装 npm install axios --save
+  > 引入：import axios from 'axios'
+  
+## `string` 是模板字符串，ES2015新增的符号
+ ```
+  var x = 'a', y = 'b';
+  var z = `${x,y}`; //'b'
+  模板字符串里面${var}是变量的占位符。
+  x,y 逗号运算符是返回符号右边的值，这里面等于y。
+ ```
 
 
 ``` bash
