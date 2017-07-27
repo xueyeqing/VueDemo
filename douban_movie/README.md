@@ -103,14 +103,55 @@
   > 安装 npm install axios --save
   > 引入：import axios from 'axios'
   
-## `string` 是模板字符串，ES2015新增的符号
+### `string` 是模板字符串，ES2015新增的符号
  ```
   var x = 'a', y = 'b';
   var z = `${x,y}`; //'b'
   模板字符串里面${var}是变量的占位符。
   x,y 逗号运算符是返回符号右边的值，这里面等于y。
  ```
-
+ 
+### better-scroll
+ > better-scroll 是一个移动端滚动的解决方案，它是基于 iscroll 的重写
+ > 安装 npm install better-scroll --save
+ ```初始化
+     import BScroll from 'better-scroll'
+     let wrapper = document.querySelector('.wrapper')
+     let scroll = new BScroll(wrapper, {...})
+     
+     如下：
+      <template>
+        <div class="wrapper" ref="wrapper">
+          <ul class="content">
+            <li>...</li>
+            <li>...</li>
+            ...
+          </ul>
+        </div>
+      </template>
+      <script>
+        import BScroll from 'better-scroll'
+        export default {
+          mounted() {
+            this.$nextTick(() => {
+              this.scroll = new Bscroll(this.$refs.wrapper, {})
+            })
+          }
+        }
+      </script>
+      
+      this.$refs.wrapper 访问到了这个 DOM 对象
+      this.$nextTick 的回调函数中初始化 better-scroll，这里的 this.$nextTick 是一个异步函数，为了确保 DOM 已经渲染
+ ```
+ > scroll组件的抽象和封装
+   ```
+     scroll 组件的 DOM 结构十分简单，如下所示：
+     <template>
+       <div ref="wrapper">
+         <slot></slot>
+       </div>
+     </template>
+   ```
 
 ``` bash
 # install dependencies
