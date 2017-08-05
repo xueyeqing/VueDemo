@@ -82,7 +82,8 @@
 //        let foodList = this.$refs.footWrapper.getElementsByClassName('')
         let foodList = this.$refs.foodList;
         let el = foodList[index];
-        this.foodsScroll.scrollToElement(el, 300);
+//        this.foodsScroll.scrollToElement(el, 300);
+        this.foodsScroll.scrollTo(0, -this.listHeight[index], 300)
       },
       _initScroll(){
         //首先要使点击有效，因为 better-scroll将默认事件都阻止了

@@ -19,7 +19,7 @@
               :data="hotMovies"
               @scrollToEnd="loadMore">
         <div class="list-inner">
-          <movie-list :movies="hotMovies" :hasMore="hasMoreHotMovies"></movie-list>
+          <movie-list :movies="hotMovies" :hasMore="hasMoreHotMovies" @select="selectM"></movie-list>
         </div>
       </scroll>
       <!--即将上映-->
@@ -32,6 +32,9 @@
           <movie-list :movies="comingMovies" :hasMore="hasMoreComingMovies"></movie-list>
         </div>
       </scroll>
+      <loadmore :fullScreen="fullScreen"
+                v-show="currentIndex===1&&!comingMovies.length||currentIndex===0&&!hotMovies.length">
+      </loadmore>
     </div>
 
   </div>
@@ -47,6 +50,8 @@
   import {getMovie, getComingMovie} from '../../api/movie-show';
   import {createMovieList} from '../../common/js/movieList';
 
+  import {mapMutations} from 'vuex';
+
   const SEARCH_MORE = 10; // 每次请求数据的长度
 
   export default{
@@ -57,6 +62,7 @@
           {name: '正在热映'},
           {name: '即将上映'}
         ],
+        fullScreen: true, // 加载动画全屏
         loadingFlag: true, // 控制滚动加载速度
         pullup: true, // 支持滚动加载
         hotMovieIndex: 0,
@@ -131,7 +137,18 @@
           }
           this.loadingFlag = true;
         }
-      }
+      },
+      selectM(movie){
+        // 存储当前电影内容
+        this.setMovie(movie);
+        // 转入电影详情
+        this.$router.push({
+          path: `/movie/${movie.id}`
+        });
+      },
+      ...mapMutations({
+        setMovie: 'SET_MOVIE'
+      })
     },
     watch: {}
   }

@@ -1,5 +1,5 @@
 <template>
-  <div class="loadmore">
+  <div class="loadmore" :class="{'full':fullScreen}">
     <div class="hasmore" v-if="hasMore">
       <span></span>
       <span></span>
@@ -19,6 +19,10 @@
       hasMore: {
         type: Boolean,
         default: true
+      },
+      fullScreen: {
+        type: Boolean,
+        default: false
       }
     },
     data(){
@@ -35,6 +39,11 @@
     margin: 0 auto
     text-align: center
     padding-bottom: 10px
+    &.full
+      position: absolute
+      top: 50%
+      width: 100%
+      transform: translateY(-50%)
     .hasmore
       height: 100%
       span

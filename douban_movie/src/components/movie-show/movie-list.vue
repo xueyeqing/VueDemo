@@ -1,7 +1,7 @@
 <template>
   <div class="movie-list">
     <ul>
-      <li v-for="(movie,index) in movies" ref="group">
+      <li v-for="(movie,index) in movies" @click="selectMovie(movie)" ref="group">
         <div class="item">
           <div class="info-img">
             <img :src="movie.image" class="" height="120" width="80">
@@ -34,6 +34,11 @@
     },
     data(){
       return {}
+    },
+    methods: {
+      selectMovie(movie){
+        this.$emit('select', movie);
+      }
     },
     components: {
       Loadmore
