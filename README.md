@@ -9,7 +9,7 @@
  ![](https://github.com/xueyeqing/VueDemo/blob/master/vue-element/static/27.pic.jpg)  ![](https://github.com/xueyeqing/VueDemo/blob/master/vue-element/static/28.pic.jpg)
  
 ### 4、douban_movie 高仿豆瓣电影
- ![](https://github.com/xueyeqing/VueDemo/tree/master/douban_movie/static/2.pic.jpg)
+ ![](https://github.com/xueyeqing/VueDemo/blob/master/douban_movie/static/2.pic.jpg)
 
 ### 5、vue_ele 高仿饿了么商品页面
  ![](https://github.com/xueyeqing/VueDemo/blob/master/vue_elm/static/a.jpg)
