@@ -9,13 +9,25 @@
           <span v-show="this.changeFix"></span>
         </span>
     </div>
-    <div class="movie-detail"></div>
+    <scroll class="movie-detail" :data="movieDetail">
+      <div class="scroll-wrapper">
+        <div class="scroll-content" v-if="movieDetail.images">
+          <div class="bg-image">
+            <img v-lazy="movieDetail.images.large"/>
+          </div>
+
+          <movie-info :movieDetail="movieDetail"></movie-info>
+
+        </div>
+      </div>
+    </scroll>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 
-  //  import Scroll from 'base/scroll/scroll';
+  import MovieInfo from '../../components/movie-show/movie-info.vue'
+  import Scroll from 'base/scroll/scroll';
 
   import {getMovieDetail} from '../../api/movie-detail'
 
@@ -40,23 +52,25 @@
       },
       _getDetail() {
         console.log('获取电影详情', this.movies);
-//        if (!this.movie.id) { // 在当前界面刷新回退到主界面
-//          this.$router.push('/movie-show');
-//          return;
-//        }
-//        getMovieDetail(this.movie.id).then((res) => { // 获取电影详细
-//          console.log('detail', res)
-//        });
+        if (!this.movies.movie.id) { // 在当前界面刷新回退到主界面
+          this.$router.push('/movie-show');
+          return;
+        }
+        getMovieDetail(this.movies.movie.id).then((res) => { // 获取电影详细
+          this.movieDetail = res;
+          let me = this;
+          console.log('detail', res)
+        });
       }
     },
     computed: {
       ...mapGetters([
         'movies'
       ])
+    },
+    components: {
+      Scroll, MovieInfo
     }
-//    components: {
-//      Scroll
-//    }
   }
 </script>
 
@@ -102,6 +116,12 @@
       left: 0
       right: 0
       background: $color-background-f
+      .bg-image
+        text-align: center
+        padding: 50px 0 20px 0
+        background-color: $color-background-f
+        img
+          width: 50%
 
 
 </style>

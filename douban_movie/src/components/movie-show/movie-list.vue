@@ -4,10 +4,11 @@
       <li v-for="(movie,index) in movies" @click="selectMovie(movie)" ref="group">
         <div class="item">
           <div class="info-img">
-            <img :src="movie.image" class="" height="120" width="80">
+            <img v-lazy="movie.image" class="" height="120" width="80">
           </div>
           <div class="info-desc">
             <p class="title">{{movie.title}}</p>
+            <star :size="24" :score="movie.rating" :showScore="showScore"></star>
             <div class="director">导演: {{movie.director}}</div>
             <div class="casts">主演: {{movie.casts}}</div>
             <div class="hasWatched">{{movie.collectCount}}人看过</div>
@@ -20,6 +21,7 @@
 </template>
 
 <script>
+  import Star from 'base/star/star';
   import Loadmore from 'base/loadmore/loadmore';
   export default{
     props: {
@@ -33,7 +35,9 @@
       }
     },
     data(){
-      return {}
+      return {
+        showScore: true
+      }
     },
     methods: {
       selectMovie(movie){
@@ -41,7 +45,7 @@
       }
     },
     components: {
-      Loadmore
+      Loadmore,Star
     }
   }
 </script>

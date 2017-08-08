@@ -153,6 +153,37 @@
      </template>
    ```
 
+### 图片lazyload插件
+ 
+ > 安装： $ npm install vue-lazyload --save
+ 
+ > 使用：
+  ```
+   // import VueLazyload
+   import VueLazyload from 'vue-lazyload'
+   
+   //use custom directive
+   Vue.use(VueLazyload)
+   
+   // use options
+   Vue.use(VueLazyload, {
+     preLoad: 1.3,
+     error: 'dist/error.png',
+     loading: 'dist/loading.gif',
+     attempt: 1 //这个是加载图片数量
+   })
+   
+  ```
+  
+ > 事件钩子
+  ```
+   vm.$Lazyload.$on  : 侦听自定义事件loading，loaded，error
+   vm.$Lazyload.$once  : 侦听自定义事件，但只有一次。一旦第一次触发，监听器将被移除
+   vm.$Lazyload.$off  : 如果只提供该事件，会删除该事件的所有侦听器
+
+  ```
+
+
 ``` bash
 # install dependencies
 npm install

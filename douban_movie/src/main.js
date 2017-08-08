@@ -5,6 +5,13 @@ import App from './App'
 import router from './router'
 import store from './store/index'
 
+import VueLazyLoad from 'vue-lazyload'; // 图片懒加载
+
+Vue.use(VueLazyLoad, {
+  error: require('./common/image/error.jpg'),
+  loading: require('./common/image/loading.gif')
+});
+
 import 'common/stylus/index.styl'; // 引入样式表
 
 Vue.config.productionTip = false

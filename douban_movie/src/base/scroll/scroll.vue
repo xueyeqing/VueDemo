@@ -61,7 +61,9 @@
         }
         this.scroll = new BScroll(this.$refs.wrapper, {
           probeType: this.probeType,
-          click: this.click
+          click: this.click,
+          scrollX: this.scrollX,
+          eventPassthrough: this.eventPassthrough
         });
         // 是否需要监听滚动事件
         // 如果支持上拉刷新
