@@ -51,21 +51,19 @@
         this.$router.back();
       },
       _getDetail() {
-        console.log('获取电影详情', this.movies);
-        if (!this.movies.movie.id) { // 在当前界面刷新回退到主界面
+        if (!this.movie.id) { // 在当前界面刷新回退到主界面
           this.$router.push('/movie-show');
           return;
         }
-        getMovieDetail(this.movies.movie.id).then((res) => { // 获取电影详细
+        getMovieDetail(this.movie.id).then((res) => { // 获取电影详细
           this.movieDetail = res;
           let me = this;
-          console.log('detail', res)
         });
       }
     },
     computed: {
       ...mapGetters([
-        'movies'
+        'movie'
       ])
     },
     components: {

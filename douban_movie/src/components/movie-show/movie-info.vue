@@ -19,8 +19,13 @@
     </div>
 
     <div class="operate">
-      <div>123</div>
-      <div>123</div>
+      <div class="want-watch" v-text="wantedText"
+           @click="saveWantedMovie" :class="{'wanted': isWanted(movieDetail.id)}"></div>
+      <div class="has-watched" @click="saveWatchedMovie"
+           :class="{'watched': isWatched(movieDetail.id)}">
+        <img src="./avatar.jpg" alt="" v-show="hasWatched" width="25" height="25">
+        {{watchedText}}
+      </div>
     </div>
 
     <div class="summary">
@@ -49,6 +54,7 @@
 <script>
   import Star from 'base/star/star';
   import Scroll from 'base/scroll/scroll';
+  import {mapGetters, mapActions} from 'vuex';
   export default{
     props: {
       movieDetail: {
@@ -74,6 +80,11 @@
       });
     },
     computed: {
+      ...mapGetters([
+        'movie',
+        'wantedMovies',
+        'watchedMovies'
+      ]),
       rating() {
         let rating = this.movieDetail.rating.average;
         if (rating === 0) {
@@ -112,9 +123,12 @@
       }
     },
     components: {
-      Scroll,Star
+      Scroll, Star
     },
     methods: {
+      ...mapActions([
+        'markWantedMovie', 'markWatchedMovie'
+      ]),
       _initPics() {
         let picWidth = 90;
         let margin = 8;
@@ -127,6 +141,50 @@
           return `${this.movieDetail.rating.average}.0`;
         }
         return this.movieDetail.rating.average;
+      },
+      saveWantedMovie() {
+        this.markWantedMovie(this.movie);
+        const index = this.wantedMovies.findIndex((item) => {
+          return item.id === this.movie.id;
+        });
+        if (index > -1) {
+          this.wantedText = '已想看';
+        } else {
+          this.wantedText = '想看';
+        }
+      },
+      isWanted(id) {
+        const index = this.wantedMovies.findIndex((item) => {
+          return item.id === id;
+        });
+        if (index > -1) {
+          this.wantedText = '已想看';
+          return true;
+        }
+        return false;
+      },
+      saveWatchedMovie(){
+        this.markWatchedMovie(this.movie);
+        const index = this.watchedMovies.findIndex((item) => {
+          return item.id === this.movie.id;
+        });
+        if (index > -1) {
+          this.hasWatched = true;
+          this.watchedText = '已看过';
+        } else {
+          this.hasWatched = false;
+          this.watchedText = '看过 ☆☆☆☆☆';
+        }
+      },
+      isWatched(id) {
+        const index = this.watchedMovies.findIndex((item) => {
+          return item.id === id;
+        });
+        if (index > -1) {
+          this.hasWatched = true;
+          return true;
+        }
+        return false;
       }
     }
   }
@@ -178,6 +236,26 @@
       text-align: center
       color: $color-theme-f
       font-size: $font-size-medium
+      .want-watch
+        flex: 1
+        border: 1px solid $color-theme-f
+        border-radius: 5px
+        margin-right: 20px
+        &.wanted
+          border: 1px solid $color-collect
+          color: $color-collect
+      .has-watched
+        flex: 2
+        border: 1px solid $color-theme-f
+        border-radius: 5px
+        &.watched
+          border: 1px solid $color-collect
+          color: $color-collect
+          img
+            display: inline-block
+            vertical-align: middle
+            padding-bottom: 2px
+            border-radius: 50%
 
     .summary
       margin-top: 20px
@@ -199,6 +277,9 @@
       white-space: nowrap
       border-bottom-1px($color-line)
       .casts-content
+        .title
+          font-size: $font-size-small
+          padding-bottom: 20px
         .cast-item
           width: 90px
           vertical-align: top
