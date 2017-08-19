@@ -9,7 +9,7 @@
           <span v-show="this.changeFix"></span>
         </span>
     </div>
-    <scroll class="movie-detail" :data="movieDetail">
+    <scroll class="movie-detail" :data="movieDetail" ref="scroll">
       <div class="scroll-wrapper">
         <div class="scroll-content" v-if="movieDetail.images">
           <div class="bg-image">
@@ -17,6 +17,15 @@
           </div>
 
           <movie-info :movieDetail="movieDetail"></movie-info>
+          <div class="switch">
+            <switches :switches="switches" :currentIndex="currentIndex" @switch="switchItem"></switches>
+          </div>
+
+          <movie-comment v-show="currentIndex === 0"
+                         :comments="movieDetail.popular_comments"
+                         :commentNum="movieDetail.comments_count">
+          </movie-comment>
+          <movie-review v-show="currentIndex === 1"></movie-review>
 
         </div>
       </div>
@@ -27,18 +36,25 @@
 <script type="text/ecmascript-6">
 
   import MovieInfo from '../../components/movie-show/movie-info.vue'
-  import Scroll from 'base/scroll/scroll';
-
+  import MovieComment from '../../components/movie-show/movie-comment.vue'
+  import MovieReview from '../../components/movie-show/movie-review.vue'
+  import Scroll from 'base/scroll/scroll'
+  import Switches from 'base/switches/switches'
   import {getMovieDetail} from '../../api/movie-detail'
 
-  import {mapGetters} from 'vuex';
+  import {mapGetters} from 'vuex'
 
   export default{
     name: 'movieDetail', // 创建name属性用于keep-alive组件定位本组件防止缓存
     data(){
       return {
         movieDetail: {},
-        changeFix: false // fix栏目图标的显示隐藏
+        changeFix: false, // fix栏目图标的显示隐藏
+        switches: [
+          {name: '短评'},
+          {name: '影评'}
+        ],
+        currentIndex: 0
       }
     },
     created() {
@@ -57,7 +73,14 @@
         }
         getMovieDetail(this.movie.id).then((res) => { // 获取电影详细
           this.movieDetail = res;
-          let me = this;
+          let self = this;
+          console.log(self.movieDetail);
+        });
+      },
+      switchItem(index) { // 切换评论tab栏目
+        this.currentIndex = index;
+        this.$nextTick(() => {
+          this.$refs.scroll.refresh();
         });
       }
     },
@@ -67,7 +90,7 @@
       ])
     },
     components: {
-      Scroll, MovieInfo
+      Scroll, MovieInfo, Switches, MovieComment, MovieReview
     }
   }
 </script>

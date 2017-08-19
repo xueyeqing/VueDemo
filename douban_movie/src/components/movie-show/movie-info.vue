@@ -20,7 +20,8 @@
 
     <div class="operate">
       <div class="want-watch" v-text="wantedText"
-           @click="saveWantedMovie" :class="{'wanted': isWanted(movieDetail.id)}"></div>
+           @click="saveWantedMovie"
+           :class="{'wanted': isWanted(movieDetail.id)}"></div>
       <div class="has-watched" @click="saveWatchedMovie"
            :class="{'watched': isWatched(movieDetail.id)}">
         <img src="./avatar.jpg" alt="" v-show="hasWatched" width="25" height="25">
@@ -182,6 +183,7 @@
         });
         if (index > -1) {
           this.hasWatched = true;
+          this.watchedText = '已看过';
           return true;
         }
         return false;

@@ -82,6 +82,10 @@
       Switches, Scroll, MovieList, Loadmore
     },
     methods: {
+      scroll(pos) { // 获取滚动位置
+        console.log(pos);
+        this.scrollY = pos.y;
+      },
       switchItem(index) {
         this.currentIndex = index;
         // 第一次切换到即将上映选项卡后开始请求即将上映电影的数据
@@ -150,7 +154,11 @@
         setMovie: 'SET_MOVIE'
       })
     },
-    watch: {}
+    watch: {
+      scrollY(newY, oldY) {
+        console.log('scrollY')
+      }
+    }
   }
 </script>
 
