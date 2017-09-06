@@ -2,6 +2,7 @@
   <div class="movie-list">
     <ul>
       <li v-for="(movie,index) in movies" @click="selectMovie(movie)" ref="group">
+        <div class="date" v-if="needDate && !dateEqual(index)">{{movie.date}}</div>
         <div class="item">
           <div class="info-img">
             <img v-lazy="movie.image" class="" height="120" width="80">
@@ -29,6 +30,10 @@
         type: Array,
         default: []
       },
+      needDate: {
+        type: Boolean,
+        default: false
+      },
       hasMore: {
         type: Boolean,
         default: true
@@ -39,13 +44,60 @@
         showScore: true
       }
     },
+    created() {
+      this.listHeight = [];
+      this.indexMap = {};
+    },
     methods: {
       selectMovie(movie){
         this.$emit('select', movie);
+      },
+      dateEqual(index) { // 确定相邻两部电影日期是否一样，划分日期分组
+        if (index === 0) {
+          return false;
+        }
+        return this.movies[index].date === this.movies[index - 1].date;
+      },
+      getMap() { // 根据日期创建电影分组
+        let map = {}
+        for (let i = 0; i < this.movies.length; i++) {
+          // 这里是关键
+          if (map[this.movies[i].date]) {
+            map[this.movies[i].date].push(i);
+          } else {
+            map[this.movies[i].date] = [i];
+          }
+        }
+        this.indexMap = map;
+      },
+      _calculateHeight() { // 计算每个区间的高度
+        this.listHeight = [];
+        const list = this.$refs.group;
+        let height = 0;
+        let map = Object.values(this.indexMap);
+        this.listHeight.push(height);
+        map.forEach((item, index) => {
+          item.forEach((item) => {
+            height += list[item].clientHeight;
+          });
+          this.listHeight.push(height);
+        });
+        this.$emit('getHeight', this.listHeight);
+        this.$emit('getMap', Object.keys(this.indexMap));
+      }
+    },
+    watch: {
+      movies() {
+        if (this.needDate) {
+          setTimeout(() => { // 需要延迟来保证dom更新
+            this.getMap();
+            this._calculateHeight();
+          }, 20);
+        }
       }
     },
     components: {
-      Loadmore,Star
+      Loadmore, Star
     }
   }
 </script>

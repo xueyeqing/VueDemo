@@ -27,16 +27,22 @@
               v-show="currentIndex === 1"
               :pullup="pullup"
               :data="comingMovies"
+              :probeType="probeType"
+              :listenScroll="listenScroll"
+              @scroll="scroll"
               @scrollToEnd="loadMore">
         <div class="list-inner">
-          <movie-list :movies="comingMovies" :hasMore="hasMoreComingMovies"></movie-list>
+          <movie-list :movies="comingMovies" :hasMore="hasMoreComingMovies"
+                      :needDate="needDate" @getHeight="getHeight" @getMap="getMap"></movie-list>
         </div>
       </scroll>
       <loadmore :fullScreen="fullScreen"
                 v-show="currentIndex===1&&!comingMovies.length||currentIndex===0&&!hotMovies.length">
       </loadmore>
     </div>
-
+    <div v-show="currentIndex === 1" class="list-fixed" v-if="fixedTitle" ref="fixed">
+      <h1 class="fixed-title">{{fixedTitle}}</h1>
+    </div>
   </div>
 </template>
 
@@ -53,6 +59,7 @@
   import {mapMutations} from 'vuex';
 
   const SEARCH_MORE = 10; // 每次请求数据的长度
+  const TITLE_HEIGHT = 30; // 日期栏高度
 
   export default{
     data(){
@@ -62,6 +69,7 @@
           {name: '正在热映'},
           {name: '即将上映'}
         ],
+        needDate: true, // 电影列表显示日期栏
         fullScreen: true, // 加载动画全屏
         loadingFlag: true, // 控制滚动加载速度
         pullup: true, // 支持滚动加载
@@ -70,6 +78,7 @@
         hasMoreHotMovies: true,
         hasMoreComingMovies: true,
         scrollY: -1,
+        diff: -1,
         hotMovies: [],
         comingMovies: [],
         scrollIndex: 0,
@@ -77,14 +86,33 @@
     },
     created(){
       this._getMovie();
+      this.probeType = 3; // 需要实时派发事件
+      this.listenScroll = true; // 需要监听事件
+      this.listHeight = []; // 各个滚动区域高度
+      this.scrollMap = []; // 滚动区分组
+    },
+    computed: {
+      fixedTitle() {
+        if (this.scrollY > 0) {
+          return '';
+        }
+        return this.scrollMap[this.scrollIndex] ? this.scrollMap[this.scrollIndex] : '';
+      }
     },
     components: {
       Switches, Scroll, MovieList, Loadmore
     },
     methods: {
       scroll(pos) { // 获取滚动位置
-        console.log(pos);
         this.scrollY = pos.y;
+      },
+      getHeight(height) { // 保存子组件传入的高度列表
+        this.listHeight = height;
+        // console.log(height);
+      },
+      getMap(map) { // 保存子组件传入的日期索引
+        this.scrollMap = map;
+        // console.log(this.scrollMap);
       },
       switchItem(index) {
         this.currentIndex = index;
@@ -156,7 +184,38 @@
     },
     watch: {
       scrollY(newY, oldY) {
-        console.log('scrollY')
+
+        if (this.listHeight.length === 0 || this.scrollMap.length === 0) { // 若还未获取到高度则返回
+          return;
+        }
+        // 当滚动到顶部下拉时，newY > 0
+        if (newY > 0) {
+          this.scrollIndex = 0;
+          return;
+        }
+        // 在中间部分滚动
+        for (let i = 0; i < this.listHeight.length - 1; i++) {
+          let height1 = this.listHeight[i];
+          let height2 = this.listHeight[i + 1];
+          if (-newY >= height1 && -newY < height2) {
+            this.scrollIndex = i;
+            this.diff = height2 + newY;
+            return;
+          }
+        }
+        // 滚动到底部，且newY大于最后一个元素的上限
+        this.scrollIndex = this.listHeight.length - 2;
+      },
+      diff(newval) {
+        let fixedTop = (newval > 0 && newval < TITLE_HEIGHT) ? newval - TITLE_HEIGHT : 0;
+        if (this.fixedTop === fixedTop) {
+          return;
+        }
+        console.log(this.fixedTop,fixedTop);
+        this.fixedTop = fixedTop;
+        this.$nextTick(() => {
+          this.$refs.fixed.style.transform = `translate3d(0, ${fixedTop}px, 0)`;
+        });
       }
     }
   }
@@ -195,5 +254,17 @@
       overflow: hidden
       .list-inner
         padding: 0px 15px
+
+  .list-fixed
+    position: absolute
+    top: 97px
+    right: 5px
+    left: 5px
+    .fixed-title
+      width: 100%
+      padding-left: 5px
+      height: 30px
+      line-height: 30px
+      background-color: $color-background-d
 
 </style>
